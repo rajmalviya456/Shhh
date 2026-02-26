@@ -4,25 +4,19 @@ import SwiftUI
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     var statusItem: NSStatusItem?
-    var micState: MicState?
-    var hotKeyManager: HotKeyManager?
+    private(set) var micState: MicState?
+    private(set) var hotKeyManager: HotKeyManager?
     var popover: NSPopover?
-    private var isInitialized = false
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
-        NSLog("🚀 App launched, waiting for initialization...")
-    }
+        NSLog("🚀 App launched, initializing Shhh...")
 
-    func initialize(micState: MicState, hotKeyManager: HotKeyManager) {
-        // Prevent double initialization
-        guard !isInitialized else {
-            NSLog("⚠️ Already initialized, skipping...")
-            return
-        }
-        isInitialized = true
-
-        NSLog("🚀 Initializing Shhh...")
+        // Own the state objects so initialization is not dependent on a SwiftUI window appearing
+        let micState = MicState()
+        let hotKeyManager = HotKeyManager.shared
+        self.micState = micState
+        self.hotKeyManager = hotKeyManager
 
         // Check accessibility permission
         checkAccessibilityPermission()
@@ -58,10 +52,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    func setupStatusItem(micState: MicState, hotKeyManager: HotKeyManager) {
-        self.micState = micState
-        self.hotKeyManager = hotKeyManager
-
+    private func setupStatusItem(micState: MicState, hotKeyManager: HotKeyManager) {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
         if let button = statusItem?.button {

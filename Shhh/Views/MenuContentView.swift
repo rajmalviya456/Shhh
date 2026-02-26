@@ -9,6 +9,11 @@ struct MenuContentView: View {
     @ObservedObject var micState: MicState
     @ObservedObject var hotKeyManager: HotKeyManager
 
+    // MARK: - State
+
+    @State private var loginItemEnabled: Bool = LoginItemManager.isEnabled
+    @State private var loginItemNeedsApproval: Bool = LoginItemManager.requiresApproval
+
     // MARK: - Static Properties
 
     /// Singleton window manager to prevent multiple windows
@@ -82,11 +87,21 @@ struct MenuContentView: View {
 
             // Start at login with checkmark
             MenuButton(
-                icon: "power",
-                title: "Start at Login",
-                showCheckmark: LoginItemManager.isEnabled,
+                icon: loginItemNeedsApproval ? "exclamationmark.circle" : "power",
+                title: loginItemNeedsApproval ? "Approve in System Settings…" : "Start at Login",
+                showCheckmark: loginItemEnabled,
                 action: {
-                    LoginItemManager.setEnabled(!LoginItemManager.isEnabled)
+                    if loginItemNeedsApproval {
+                        // Take user straight to the approval page
+                        LoginItemManager.openSystemSettingsLoginItems()
+                    } else {
+                        let needsApproval = LoginItemManager.setEnabled(!loginItemEnabled)
+                        loginItemEnabled = LoginItemManager.isEnabled
+                        loginItemNeedsApproval = needsApproval
+                        if needsApproval {
+                            LoginItemManager.openSystemSettingsLoginItems()
+                        }
+                    }
                 }
             )
 
@@ -225,4 +240,3 @@ final class HotkeyWindowManager {
     MenuContentView(micState: MicState(), hotKeyManager: HotKeyManager.shared)
         .frame(width: 280)
 }
-
