@@ -49,6 +49,7 @@ struct MenuContentView: View {
                     in: 0...100
                 )
                 .controlSize(.regular)
+                .focusEffectDisabled()
                 .padding(.horizontal, 20)
 
                 HStack {
