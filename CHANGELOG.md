@@ -5,6 +5,26 @@ All notable changes to Shhh will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+- Microphone control migrated from AppleScript to the CoreAudio HAL
+  (faster, no scripting runtime, works with per-channel volume devices)
+- Volume monitoring is now event-driven via CoreAudio property listeners;
+  the 500ms polling timer is gone
+- Mute/unmute toggle now reads live hardware state, fixing a race where a
+  toggle right after an external volume change acted on stale state
+
+### Added
+- `ShhhTests` unit test target wired into the Xcode project with a shared scheme
+- CoreAudio listener test coverage
+
+### Removed
+- Unnecessary Accessibility permission prompt (global hotkeys via Carbon
+  `RegisterEventHotKey` never needed it)
+- Unused microphone usage description (the app never records audio)
+- Dead code: unused debounce state, unused error property, unused menu bar icon view
+
 ## [1.0.0] - 2024-12-19
 
 ### Added

@@ -2,7 +2,7 @@
 
 > A minimalist macOS menu bar app for instant microphone control
 
-[![Swift](https://img.shields.io/badge/Swift-6.0-orange.svg)](https://swift.org)
+[![Swift](https://img.shields.io/badge/Swift-5-orange.svg)](https://swift.org)
 [![Platform](https://img.shields.io/badge/Platform-macOS%2026.2+-blue.svg)](https://www.apple.com/macos)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
@@ -41,14 +41,13 @@ Perfect for:
 ## Installation
 
 ### Requirements
-- macOS 26.2 (Sequoia) or later
-- Apple Silicon (M1/M2/M3) or Intel Mac
+- macOS 26.2 (Tahoe) or later
 
 ### Build from Source
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/Shhh.git
+   git clone https://github.com/rajmalviya456/Shhh.git
    cd Shhh
    ```
 
@@ -60,7 +59,6 @@ Perfect for:
 3. **Build and Run**
    - Select the `Shhh` scheme
    - Press `⌘R` to build and run
-   - Grant microphone permissions when prompted
 
 ## Usage
 
@@ -88,9 +86,8 @@ Perfect for:
 
 **Shhh** is built with the latest Swift 6 features and modern macOS development practices:
 
-- ✅ **Swift 6 Concurrency** - Full `async/await` and actor isolation
-- ✅ **@MainActor Isolation** - Thread-safe UI updates
-- ✅ **Sendable Conformance** - Safe concurrent data access
+- ✅ **Swift Concurrency** - `async/await` with `@MainActor` default isolation
+- ✅ **Event-Driven Audio** - CoreAudio HAL property listeners, no polling
 - ✅ **Structured Logging** - OSLog for production-grade logging
 - ✅ **Typed Errors** - Comprehensive error handling
 - ✅ **SwiftUI** - Modern declarative UI
@@ -103,13 +100,12 @@ Shhh/
 ├── Shhh/
 │   ├── ShhhApp.swift            # App entry point
 │   ├── AppDelegate.swift        # Menu bar setup
-│   ├── MicController.swift      # Microphone control (AppleScript)
+│   ├── MicController.swift      # Microphone control (CoreAudio HAL)
 │   ├── MicState.swift           # Reactive state management
 │   ├── HotKeyManager.swift      # Global hotkey handling
 │   ├── LoginItemManager.swift   # Start at login
 │   └── Views/
 │       ├── MenuContentView.swift      # Main menu UI
-│       ├── MenuBarIconView.swift      # Status bar icon
 │       └── HotkeyRecorderView.swift   # Hotkey configuration
 └── ShhhTests/                   # Unit tests
 ```
@@ -117,16 +113,16 @@ Shhh/
 ### Key Components
 
 #### MicController
-- Controls system microphone via AppleScript
+- Controls the default input device via the CoreAudio HAL
 - Handles volume get/set operations
 - Manages mute/unmute with volume restoration
+- Event-driven change notifications via `AudioObjectAddPropertyListener`
 - Thread-safe with `@MainActor` isolation
 
 #### MicState
 - Observable state management with `@Published` properties
-- Periodic volume monitoring (500ms intervals)
-- Debounced slider updates to prevent glitches
-- Error tracking and logging
+- Updates instantly on external volume changes (no polling)
+- Error logging via OSLog
 
 #### HotKeyManager
 - Global keyboard shortcut registration
@@ -155,18 +151,12 @@ xcodebuild -project Shhh.xcodeproj -scheme Shhh -configuration Release build
 
 ### Code Quality
 
-- ✅ Zero compiler warnings
-- ✅ Swift 6 strict concurrency checking
+- ✅ Approachable concurrency with `@MainActor` default isolation
 - ✅ Comprehensive error handling
 - ✅ OSLog structured logging
 - ✅ Unit test coverage for core components
 
 ## Troubleshooting
-
-### Microphone Permission Denied
-1. Open **System Settings** → **Privacy & Security** → **Microphone**
-2. Enable permission for **Shhh**
-3. Restart the app
 
 ### Hotkey Not Working
 1. Check **System Settings** → **Keyboard** → **Keyboard Shortcuts**
