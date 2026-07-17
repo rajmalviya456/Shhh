@@ -18,9 +18,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.micState = micState
         self.hotKeyManager = hotKeyManager
 
-        // Check accessibility permission
-        checkAccessibilityPermission()
-
         // Connect hotkey manager to mic state
         hotKeyManager.connect(to: micState)
 
@@ -38,18 +35,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         NSLog("✅ Shhh initialized successfully")
         NSLog("📍 Look for the microphone icon in your menu bar (top-right of screen)")
-    }
-
-    private func checkAccessibilityPermission() {
-        let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeRetainedValue() as String: true]
-        let accessEnabled = AXIsProcessTrustedWithOptions(options)
-
-        if accessEnabled {
-            NSLog("✅ Accessibility permission granted")
-        } else {
-            NSLog("⚠️ Accessibility permission required for hotkeys!")
-            NSLog("   Please grant permission in System Settings → Privacy & Security → Accessibility")
-        }
     }
 
     private func setupStatusItem(micState: MicState, hotKeyManager: HotKeyManager) {

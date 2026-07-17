@@ -4,7 +4,5 @@
 <dict>
 	<key>LSUIElement</key>
 	<true/>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Shhh needs microphone access to control microphone volume.</string>
 </dict>
 </plist>
