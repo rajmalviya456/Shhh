@@ -12,12 +12,18 @@
 
 /* Begin PBXFileReference section */
 		9550508F2EF5873E008307F0 /* Shhh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shhh.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		955050C42EF60000008307F0 /* ShhhTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShhhTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		955050912EF5873E008307F0 /* Shhh */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Shhh;
+			sourceTree = "<group>";
+		};
+		955050C12EF60000008307F0 /* ShhhTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ShhhTests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -31,6 +37,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		955050C62EF60000008307F0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -38,6 +51,7 @@
 			isa = PBXGroup;
 			children = (
 				955050912EF5873E008307F0 /* Shhh */,
+				955050C12EF60000008307F0 /* ShhhTests */,
 				955050902EF5873E008307F0 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -46,6 +60,7 @@
 			isa = PBXGroup;
 			children = (
 				9550508F2EF5873E008307F0 /* Shhh.app */,
+				955050C42EF60000008307F0 /* ShhhTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -76,6 +91,29 @@
 			productReference = 9550508F2EF5873E008307F0 /* Shhh.app */;
 			productType = "com.apple.product-type.application";
 		};
+		955050C32EF60000008307F0 /* ShhhTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 955050C82EF60000008307F0 /* Build configuration list for PBXNativeTarget "ShhhTests" */;
+			buildPhases = (
+				955050C52EF60000008307F0 /* Sources */,
+				955050C62EF60000008307F0 /* Frameworks */,
+				955050C72EF60000008307F0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				955050CB2EF60000008307F0 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				955050C12EF60000008307F0 /* ShhhTests */,
+			);
+			name = ShhhTests;
+			packageProductDependencies = (
+			);
+			productName = ShhhTests;
+			productReference = 955050C42EF60000008307F0 /* ShhhTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -88,6 +126,10 @@
 				TargetAttributes = {
 					9550508E2EF5873E008307F0 = {
 						CreatedOnToolsVersion = 26.2;
+					};
+					955050C32EF60000008307F0 = {
+						CreatedOnToolsVersion = 26.2;
+						TestTargetID = 9550508E2EF5873E008307F0;
 					};
 				};
 			};
@@ -109,6 +151,7 @@
 			projectRoot = "";
 			targets = (
 				9550508E2EF5873E008307F0 /* Shhh */,
+				955050C32EF60000008307F0 /* ShhhTests */,
 			);
 		};
 /* End PBXProject section */
@@ -121,10 +164,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		955050C72EF60000008307F0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		9550508B2EF5873E008307F0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		955050C52EF60000008307F0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -320,6 +377,42 @@
 			};
 			name = Release;
 		};
+		955050C92EF60000008307F0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sharabi.rj.ShhhTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Shhh.app/Contents/MacOS/Shhh";
+			};
+			name = Debug;
+		};
+		955050CA2EF60000008307F0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sharabi.rj.ShhhTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Shhh.app/Contents/MacOS/Shhh";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -341,7 +434,23 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+	955050C82EF60000008307F0 /* Build configuration list for PBXNativeTarget "ShhhTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				955050C92EF60000008307F0 /* Debug */,
+				955050CA2EF60000008307F0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin PBXTargetDependency section */
+		955050CB2EF60000008307F0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9550508E2EF5873E008307F0 /* Shhh */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCRemoteSwiftPackageReference section */
 		955050B62EF5898F008307F0 /* XCRemoteSwiftPackageReference "HotKey" */ = {
