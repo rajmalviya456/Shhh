@@ -43,6 +43,14 @@ Perfect for:
 ### Requirements
 - macOS 26.2 (Tahoe) or later
 
+### Download
+
+- [GitHub Releases](https://github.com/rajmalviya456/Shhh/releases/latest) — free
+- [Gumroad](https://rajmalviya456.gumroad.com/l/shhh) — same app, pay what you want ($0 works)
+
+The prebuilt zip is not notarized yet: on first launch, right-click
+Shhh.app and choose **Open**.
+
 ### Build from Source
 
 1. **Clone the repository**
