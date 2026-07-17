@@ -19,6 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `ShhhTests` unit test target wired into the Xcode project with a shared scheme
 - CoreAudio listener test coverage
 
+### Fixed
+- Ghost focus ring stuck at the slider's old position after external
+  volume changes moved the thumb
+
 ### Removed
 - Unnecessary Accessibility permission prompt (global hotkeys via Carbon
   `RegisterEventHotKey` never needed it)
