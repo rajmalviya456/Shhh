@@ -1,6 +1,6 @@
-import SwiftUI
 import Combine
 import OSLog
+import SwiftUI
 
 /// Manages microphone state and volume control
 ///
@@ -13,17 +13,10 @@ final class MicState: ObservableObject {
 
     @Published private(set) var inputVolume: Double
     @Published private(set) var isSilent: Bool
-    @Published private(set) var lastError: Error?
 
     // MARK: - Private Properties
 
-    private var volumeCheckTimer: Timer?
-    private let updateInterval: TimeInterval = 0.5
     private let logger = Logger(subsystem: "com.sharabi.rj.Shhh", category: "MicState")
-
-    /// Prevents timer updates while user is actively dragging the slider
-    private var isUserAdjusting = false
-    private var userAdjustmentDebounceTask: Task<Void, Never>?
 
     // MARK: - Initialization
 
@@ -36,16 +29,14 @@ final class MicState: ObservableObject {
         setupVolumeMonitoring()
     }
 
-    deinit {
-        volumeCheckTimer?.invalidate()
-    }
-
     // MARK: - Public Methods
 
     /// Toggles microphone between muted and unmuted states
     func toggleMic() {
         do {
-            if isSilent {
+            // Decide from live hardware state so a toggle immediately after an
+            // external change can't act on a stale cached value
+            if MicController.isSilent() {
                 try MicController.restoreMic()
                 logger.info("Microphone unmuted")
             } else {
@@ -61,7 +52,6 @@ final class MicState: ObservableObject {
             }
         } catch {
             logger.error("Failed to toggle microphone: \(error.localizedDescription)")
-            lastError = error
         }
     }
 
@@ -69,12 +59,6 @@ final class MicState: ObservableObject {
     /// - Parameter volume: Volume level from 0 to 100
     func setVolume(_ volume: Double) {
         let clampedVolume = max(0, min(100, volume))
-
-        // Mark that user is adjusting to prevent timer conflicts
-        isUserAdjusting = true
-
-        // Cancel any pending debounce task
-        userAdjustmentDebounceTask?.cancel()
 
         // Update immediately for responsive UI
         inputVolume = clampedVolume
@@ -91,30 +75,23 @@ final class MicState: ObservableObject {
             logger.debug("Volume set to \(Int(clampedVolume))%")
         } catch {
             logger.error("Failed to set volume: \(error.localizedDescription)")
-            lastError = error
-        }
-
-        // Debounce: Resume timer updates after user stops adjusting (500ms)
-        userAdjustmentDebounceTask = Task { @MainActor in
-            try? await Task.sleep(nanoseconds: 500_000_000) // 500ms
-            if !Task.isCancelled {
-                isUserAdjusting = false
-            }
         }
     }
 
     // MARK: - Private Methods
 
-    /// Sets up periodic volume monitoring
+    /// Subscribes to CoreAudio volume change notifications (event-driven, no polling)
     private func setupVolumeMonitoring() {
-        volumeCheckTimer = Timer.scheduledTimer(
-            withTimeInterval: updateInterval,
-            repeats: true
-        ) { [weak self] _ in
-            guard let self = self else { return }
-            Task { @MainActor in
-                await self.updateVolume()
+        do {
+            try MicController.addVolumeChangeListener { [weak self] in
+                guard let self = self else { return }
+                Task { @MainActor in
+                    await self.updateVolume()
+                }
             }
+        } catch {
+            logger.error(
+                "Failed to install volume change listener: \(error.localizedDescription)")
         }
     }
 
@@ -126,7 +103,6 @@ final class MicState: ObservableObject {
             isSilent = volume == 0
         } catch {
             logger.error("Failed to get volume: \(error.localizedDescription)")
-            lastError = error
         }
     }
 }
